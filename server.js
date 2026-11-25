@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const xlsx = require('xlsx');
 const nodemailer = require('nodemailer');
+const { dbConfig } = require('./db-config');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -39,16 +40,11 @@ const SMTP_READY = Boolean(
   process.env.SMTP_PASS && process.env.MAIL_FROM
 );
 
-const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  port: Number(process.env.DB_PORT || 3306),
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'ecommerce',
+const pool = mysql.createPool(dbConfig(null, {
   waitForConnections: true,
   connectionLimit: 10,
   namedPlaceholders: false
-});
+}));
 
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));

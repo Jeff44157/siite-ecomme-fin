@@ -103,6 +103,8 @@ npm start
 
 Serveur : `http://localhost:3000`
 
+> Pour un déploiement gratuit en ligne, voir [DEPLOY-RENDER.md](DEPLOY-RENDER.md) (sans carte) ; les alternatives [DEPLOY.md](DEPLOY.md) et [DEPLOY-WAIFLY.md](DEPLOY-WAIFLY.md) demandent respectivement une carte et un serveur gratuit disponible.
+
 | Page | URL |
 | --- | --- |
 | Accueil | `http://localhost:3000/index.html` |

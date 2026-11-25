@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node server.js",
     "migrate": "node migrate.js",
-    "check": "node --check server.js && node --check migrate.js && node --check admin.js && node --check app.js && node --check auth.js && node --check cart.js && node --check catalog.js && node --check res.js && node --check search.js"
+    "bootstrap": "node deploy/bootstrap-db.js",
+    "check": "node --check server.js && node --check migrate.js && node --check db-config.js && node --check deploy/bootstrap-db.js && node --check admin.js && node --check app.js && node --check auth.js && node --check cart.js && node --check catalog.js && node --check res.js && node --check search.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",

@@ -1,0 +1,19 @@
+[Unit]
+Description=IT Haven e-commerce
+After=network-online.target mysql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/ithaven
+EnvironmentFile=/opt/ithaven/.env
+ExecStart=/usr/bin/node /opt/ithaven/server.js
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

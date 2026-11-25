@@ -1,16 +1,10 @@
 require('dotenv').config();
 const mysql = require('mysql2/promise');
 const bcrypt = require('bcryptjs');
+const { dbConfig } = require('./db-config');
 
 const dbName = process.env.DB_NAME || 'ecommerce';
-const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  port: Number(process.env.DB_PORT || 3306),
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: dbName,
-  multipleStatements: false
-});
+const pool = mysql.createPool(dbConfig(null, { multipleStatements: false }));
 
 const CATALOG_SEED = [
   { category: 'headphones', name: "Nova Pro Wireless Headphones", slug: 'nova-pro-wireless-headphones', description: "Un casque sans fil blanc au design épuré, pensé pour une écoute confortable et légère au quotidien.", price: 45000, promoPrice: null, image: 'img/produits/nova-pro-wireless-headphones.jpg', stock: 25, isNew: true, sales: 128 },
