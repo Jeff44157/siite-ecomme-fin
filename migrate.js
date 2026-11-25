@@ -156,12 +156,16 @@ async function migrate() {
   `);
 
   await addColumn('orders', 'total_amount', 'INT UNSIGNED NULL AFTER user_id');
-  await pool.query('UPDATE orders SET total_amount = total_price WHERE total_amount IS NULL');
+  if (await columnExists('orders', 'total_price')) {
+    await pool.query('UPDATE orders SET total_amount = total_price WHERE total_amount IS NULL');
+  }
   await pool.query('UPDATE orders SET total_amount = 0 WHERE total_amount IS NULL');
   await pool.query('ALTER TABLE orders MODIFY total_amount INT UNSIGNED NOT NULL');
 
   await addColumn('orders', 'location', "VARCHAR(180) NULL AFTER total_amount");
-  await pool.query("UPDATE orders SET location = COALESCE(NULLIF(city, ''), 'Lomé Centre (Tokoin, Bè, Nyékonakpoè)') WHERE location IS NULL");
+  if (await columnExists('orders', 'city')) {
+    await pool.query("UPDATE orders SET location = COALESCE(NULLIF(city, ''), 'Lomé Centre (Tokoin, Bè, Nyékonakpoè)') WHERE location IS NULL");
+  }
   await pool.query("UPDATE orders SET location = 'Lomé Centre (Tokoin, Bè, Nyékonakpoè)' WHERE location IS NULL OR location = ''");
   await pool.query('ALTER TABLE orders MODIFY location VARCHAR(180) NOT NULL');
 
@@ -298,7 +302,7 @@ async function migrate() {
 
   for (const slug of RETIRED_SLUGS) {
     await pool.execute(
-      'DELETE p FROM products p WHERE p.slug = ? AND NOT EXISTS (SELECT 1 FROM order_items oi WHERE oi.product_id = p.id)',
+      'DELETE FROM products WHERE slug = ? AND id NOT IN (SELECT product_id FROM order_items)',
       [slug]
     );
   }
@@ -365,7 +369,7 @@ async function migrate() {
 
 migrate()
   .catch((err) => {
-    console.error('Erreur de migration :', err.code || err.message);
+    console.error('Erreur de migration :', err.sqlMessage || err.message);
     process.exitCode = 1;
   })
   .finally(() => pool.end());
