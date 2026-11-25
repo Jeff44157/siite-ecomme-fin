@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Connexion et inscription au compte IT Haven.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="cart.css">
+  <link rel="stylesheet" href="responsive.css">
+  <style>
+    .auth-wrapper {
+      min-height: 72vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+      background: #0d0d0d;
+      color: #ffffff;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 420px;
+      background: #141414;
+      border: 1px solid #282828;
+      border-radius: 10px;
+      padding: 24px;
+    }
+    .auth-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .auth-tab {
+      flex: 1;
+      padding: 10px;
+      background: #1e1e1e;
+      color: #cccccc;
+      border: 1px solid #2e2e2e;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .auth-tab.active {
+      background: linear-gradient(135deg, #8B5CF6, #38BDF8);
+      color: #ffffff;
+      border-color: transparent;
+    }
+    .auth-form {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .auth-form.active {
+      display: flex;
+    }
+    .auth-form input {
+      width: 100%;
+      padding: 10px 12px;
+      background: #1b1b1b;
+      border: 1px solid #333333;
+      border-radius: 6px;
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+    .auth-submit {
+      padding: 12px;
+      background: linear-gradient(135deg, #8B5CF6, #38BDF8);
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .auth-submit:disabled {
+      opacity: 0.7;
+      cursor: wait;
+    }
+    .auth-message {
+      margin-top: 14px;
+      font-size: 0.9rem;
+      min-height: 20px;
+    }
+  </style>
+  <script src="catalog.js" defer></script>
+  <script src="cart.js" defer></script>
+  <script src="search.js" defer></script>
+  <script src="app.js" defer></script>
+  <script src="auth.js" defer></script>
+  <title>Compte — IT Haven</title>
+</head>
+<body>
+  <header class="header">
+    <a href="index.html" class="logo-wrapper">
+      <i class="fas fa-graduation-cap logo-img" aria-hidden="true"></i>
+      <div class="logo-text">
+        <div class="brand-name"><span class="brand-white">IT</span><span class="brand-orange">HAVEN</span></div>
+        <span class="tagline">REFERENCE TECH.</span>
+      </div>
+    </a>
+
+    <nav class="nav">
+      <a href="index.html" class="nav-link">ACCUEIL</a>
+      <div class="dropdown">
+        <a href="shop.html" class="nav-link">SHOP <i class="fas fa-chevron-down"></i></a>
+        <div class="dropdown-menu">
+          <a href="shop.html?filter=all">Tous les produits</a>
+          <a href="shop.html?filter=new">Nouveautés</a>
+          <a href="shop.html?filter=bestsellers">Meilleures ventes</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="categories.html" class="nav-link">CATEGORIES <i class="fas fa-chevron-down"></i></a>
+        <div class="dropdown-menu">
+          <a href="shop.html?category=headphones">Écouteurs</a>
+          <a href="shop.html?category=smartphones">Téléphones</a>
+          <a href="shop.html?category=laptops">Ordinateurs</a>
+        </div>
+      </div>
+      <a href="promo.html" class="nav-link">PROMOS</a>
+      <a href="wishlist.html" class="nav-link">Wishlist <span id="wishlist-count" class="wishlist-count">0</span></a>
+      <a href="contact.html" class="nav-link">CONTACT</a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="search-box" id="search-box">
+        <input type="search" id="search-input" class="search-input" placeholder="Rechercher..." aria-label="Rechercher un produit" autocomplete="off">
+        <button type="button" id="search-btn" class="action-btn" aria-label="Rechercher"><i class="fas fa-search"></i></button>
+      </div>
+      <a href="auth.html" id="account-link" class="action-btn" aria-label="Compte"><i class="fas fa-user"></i></a>
+      <button type="button" id="cart-btn" class="action-btn cart-btn" aria-label="Panier">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cart-count" class="cart-count">0</span>
+      </button>
+      <div id="search-results" class="search-results" aria-live="polite"></div>
+    </div>
+  </header>
+
+  <main class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-tabs">
+        <button type="button" id="tab-login" class="auth-tab active">Se connecter</button>
+        <button type="button" id="tab-register" class="auth-tab">Créer un compte</button>
+      </div>
+
+      <form id="login-form" class="auth-form active">
+        <input type="email" id="login-email" placeholder="Adresse email" autocomplete="email" required>
+        <input type="password" id="login-password" placeholder="Mot de passe" autocomplete="current-password" required>
+        <button type="submit" class="auth-submit">Connexion</button>
+      </form>
+
+      <form id="register-form" class="auth-form">
+        <input type="text" id="register-name" placeholder="Nom complet" autocomplete="name" required>
+        <input type="email" id="register-email" placeholder="Adresse email" autocomplete="email" required>
+        <input type="password" id="register-password" placeholder="Mot de passe (6 car. min.)" autocomplete="new-password" minlength="6" required>
+        <button type="submit" class="auth-submit">Créer mon compte</button>
+      </form>
+
+      <div id="auth-message" class="auth-message" aria-live="polite"></div>
+      <p style="margin-top: 16px; font-size: 0.85rem;">
+        <a href="index.html" style="color: #9D6BFF;">&larr; Retour à l’accueil</a>
+      </p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-col brand-col">
+        <div class="footer-logo"><span class="logo-icon">TH</span> <strong>TECHHAVEN</strong></div>
+        <p class="footer-desc">Your ultimate destination for premium electronics and gadgets. Quality tech, trusted service, always.</p>
+        <div class="social-icons">
+          <a href="contact.html" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="contact.html" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="contact.html" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+          <a href="contact.html" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>SHOP</h3>
+        <ul>
+          <li><a href="shop.html">All Products</a></li>
+          <li><a href="promo.html">Deals &amp; Offers</a></li>
+          <li><a href="wishlist.html">Wishlist</a></li>
+          <li><a href="admin.html">Administration</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>CUSTOMER SERVICE</h3>
+        <ul>
+          <li><a href="contact.html">Help Center</a></li>
+          <li><a href="contact.html">Shipping &amp; Delivery</a></li>
+          <li><a href="contact.html">Returns &amp; Refunds</a></li>
+        </ul>
+      </div>
+      <div class="footer-col newsletter-col">
+        <h3>STAY CONNECTED</h3>
+        <p>Subscribe to get the latest updates, exclusive offers, and new arrivals.</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Enter your email" required>
+          <button type="submit" aria-label="S'abonner"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 TechHaven. All rights reserved.</p>
+      <div class="payment-security">
+        <span class="secure-badge"><i class="fa-solid fa-lock"></i> Secure Payments</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

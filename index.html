@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="IT Haven — boutique de produits tech premium, promos et livraison au Togo.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="cart.css">
+    <link rel="stylesheet" href="responsive.css">
+    <script src="catalog.js" defer></script>
+    <script src="cart.js" defer></script>
+    <script src="search.js" defer></script>
+    <script src="app.js" defer></script>
+    <script src="res.js" defer></script>
+    <title>IT Haven — Référence Tech</title>
+</head>
+<body>
+
+    <header class="header">
+        <!-- 1. LOGO & SLOGAN -->
+        <a href="index.html" class="logo-wrapper">
+            <i class="fas fa-graduation-cap logo-img" aria-hidden="true"></i>
+            <div class="logo-text">
+                <div class="brand-name">
+                    <span class="brand-white">IT</span><span class="brand-orange">HAVEN</span>
+                </div>
+                <span class="tagline">REFERENCE TECH.</span>
+            </div>
+        </a>
+
+        <!-- 2. NAVIGATION CENTRALE -->
+        <nav class="nav">
+            <a href="index.html" class="nav-link active">ACCUEIL</a>
+
+            <div class="dropdown">
+                <a href="shop.html" class="nav-link">
+                    SHOP <i class="fas fa-chevron-down"></i>
+                </a>
+                <div class="dropdown-menu">
+                    <a href="shop.html?filter=all">Tous les produits</a>
+                    <a href="shop.html?filter=new">Nouveautés</a>
+                    <a href="shop.html?filter=bestsellers">Meilleures ventes</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <a href="categories.html" class="nav-link">
+                    CATEGORIES <i class="fas fa-chevron-down"></i>
+                </a>
+                <div class="dropdown-menu">
+                    <a href="shop.html?category=headphones">Écouteurs</a>
+                    <a href="shop.html?category=smartphones">Téléphones</a>
+                    <a href="shop.html?category=laptops">Ordinateurs</a>
+                </div>
+            </div>
+
+            <a href="promo.html" class="nav-link">PROMOS</a>
+            <a href="wishlist.html" class="nav-link">Wishlist <span id="wishlist-count" class="wishlist-count">0</span></a>
+            <a href="contact.html" class="nav-link">CONTACT</a>
+        </nav>
+
+        <!-- 3. ICÔNES D'ACTION À DROITE -->
+        <div class="header-actions">
+            <div class="search-box" id="search-box">
+                <input type="search" id="search-input" class="search-input" placeholder="Rechercher..." aria-label="Rechercher un produit" autocomplete="off">
+                <button type="button" id="search-btn" class="action-btn" aria-label="Rechercher">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+
+            <a href="auth.html" id="account-link" class="action-btn" aria-label="Compte">
+                <i class="fas fa-user"></i>
+            </a>
+
+            <button type="button" id="cart-btn" class="action-btn cart-btn" aria-label="Panier">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-count" class="cart-count">0</span>
+            </button>
+
+            <div id="search-results" class="search-results" aria-live="polite"></div>
+        </div>
+    </header>
+
+
+    <!-- SECTION HERO SLIDER -->
+<section class="hero-slider" id="heroSlider">
+
+    <!-- SLIDE 1 -->
+    <div class="hero-slide active">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    PRÊT POUR LA <br>
+                    <span class="highlight">RENTRÉE SCOLAIRE</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Équipez-vous pour l’université : style soigné, confort toute la journée et pièces faciles à assortir pour cours, bibliothèques et événements campus.
+                </p>
+
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <span>STYLE<br>CAMPUS</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-shirt"></i>
+                        <span>CONFORT<br>QUOTIDIEN</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-truck-fast"></i>
+                        <span>LIVRAISON<br>RAPIDE</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-headset"></i>
+                        <span>SUPPORT<br>24/7</span>
+                    </div>
+                </div>
+
+                <a href="shop.html" class="btn-hero">
+                    SHOP NOW <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="hero-visual">
+                <div class="glow-hexagon"></div>
+                <img src="img/hoverimg1.png" alt="Collection rentrée" class="hero-product-img" >
+                <div class="podium-base"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="hero-slide">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    GAMING <br>
+                    <span class="highlight">POUR LES PAUSES</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Entre deux cours, décompresse avec du matériel fiable : performances solides, écrans réactifs et accessoires adaptés à ton espace d’étude.
+                </p>
+
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <i class="fa-solid fa-microchip"></i>
+                        <span>HAUTE<br>PERFORMANCE</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-truck-fast"></i>
+                        <span>LIVRAISON<br>RAPIDE</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>GARANTIE<br>2 ANS</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-headset"></i>
+                        <span>SUPPORT<br>24/7</span>
+                    </div>
+                </div>
+
+                <a href="shop.html?category=laptops" class="btn-hero">
+                    SHOP NOW <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="hero-visual">
+                <div class="glow-hexagon"></div>
+                <img src="img/hoverimg2.png" alt="Gaming Laptop" class="hero-product-img">
+                <div class="podium-base"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="hero-slide">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    CONNECTÉ <br>
+                    <span class="highlight">SUR LE CAMPUS</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Smartphones et audio pour rester joignable, organiser ton emploi du temps et profiter de tes playlists entre les salles : promos et choix variés.
+                </p>
+
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>CHARGE<br>RAPIDE</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-rotate"></i>
+                        <span>RETOURS<br>FACILES</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-truck-fast"></i>
+                        <span>LIVRAISON<br>RAPIDE</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-headset"></i>
+                        <span>SUPPORT<br>24/7</span>
+                    </div>
+                </div>
+
+                <a href="shop.html?category=smartphones" class="btn-hero">
+                    SHOP NOW <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="hero-visual">
+                <div class="glow-hexagon"></div>
+                <img src="img/hovering3.png" alt="Smartphones" class="hero-product-img">
+                <div class="podium-base"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4 (dernier) -->
+    <div class="hero-slide">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    CHAUSSURES <br>
+                    <span class="highlight">CONÇUES POUR MARCHER</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Une paire pensée pour les longues journées : semelle confortable, maintien stable et look polyvalent qui passe du cours au rendez-vous sans effort.
+                </p>
+
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <i class="fa-solid fa-shoe-prints"></i>
+                        <span>CONFORT<br>JOURNÉE</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-walking"></i>
+                        <span>MARCHE<br>FACILE</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>STYLE<br>POLYVALENT</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-truck-fast"></i>
+                        <span>LIVRAISON<br>RAPIDE</span>
+                    </div>
+                </div>
+
+                <a href="shop.html" class="btn-hero">
+                    VOIR LES OFFRES <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="hero-visual">
+                <div class="glow-hexagon"></div>
+                <img src="img/hero_shoes_new.png" alt="Chaussures scolaires" class="hero-product-img">
+                <div class="podium-base"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5 (dernier) -->
+    <div class="hero-slide">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    LOOK <br>
+                    <span class="highlight">UNIFORME &amp; ÉLÉGANT</span>
+                </h1>
+                <p class="hero-subtitle">
+                    L’uniforme scolaire revisité : coupe nette, tissu agréable et finitions soignées pour une tenue propre du matin au soir, du lycée à l’amphi.
+                </p>
+
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <i class="fa-solid fa-user-tie"></i>
+                        <span>TENUE<br>SOIGNÉE</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-ruler-combined"></i>
+                        <span>COUPE<br>AJUSTÉE</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>QUALITÉ<br>DURABLE</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-rotate"></i>
+                        <span>RETOURS<br>FACILES</span>
+                    </div>
+                </div>
+
+                <a href="shop.html" class="btn-hero">
+                    DÉCOUVRIR <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="hero-visual">
+                <div class="glow-hexagon"></div>
+                <img src="img/hero_uniform_new.png" alt="Uniforme scolaire" class="hero-product-img">
+                <div class="podium-base"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POINTS DE PAGINATION -->
+    <div class="hero-dots">
+        <span class="dot active" data-index="0"></span>
+        <span class="dot" data-index="1"></span>
+        <span class="dot" data-index="2"></span>
+        <span class="dot" data-index="3"></span>
+        <span class="dot" data-index="4"></span>
+    </div>
+
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="shop-section">
+
+  <!-- Icônes réutilisables (invisibles) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="sh-i-headphones" viewBox="0 0 48 48"><path d="M8 28v-4a16 16 0 0 1 32 0v4"/><rect x="6" y="26" width="9" height="14" rx="4"/><rect x="33" y="26" width="9" height="14" rx="4"/></symbol>
+    <symbol id="sh-i-watch" viewBox="0 0 48 48"><rect x="13" y="12" width="22" height="24" rx="6"/><path d="M18 12l1.5-7h9L30 12M18 36l1.5 7h9L30 36"/><path d="M24 19v5l3 2"/></symbol>
+    <symbol id="sh-i-phone" viewBox="0 0 48 48"><rect x="14" y="5" width="20" height="38" rx="4"/><path d="M21 9h6"/></symbol>
+    <symbol id="sh-i-laptop" viewBox="0 0 48 48"><rect x="9" y="11" width="30" height="21" rx="2"/><path d="M4 38h40l-3-6H7z"/></symbol>
+    <symbol id="sh-i-camera" viewBox="0 0 48 48"><path d="M6 17a3 3 0 0 1 3-3h6l3-4h12l3 4h6a3 3 0 0 1 3 3v19a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3z"/><circle cx="24" cy="26" r="8"/><circle cx="24" cy="26" r="3.5"/></symbol>
+    <symbol id="sh-i-speaker" viewBox="0 0 48 48"><rect x="10" y="9" width="28" height="30" rx="8"/><circle cx="24" cy="28" r="7"/><circle cx="24" cy="16" r="1.6"/></symbol>
+    <symbol id="sh-i-gamepad" viewBox="0 0 48 48"><path d="M14 14h20c6 0 9 6 10 14s-3 10-6 8l-5-5H15l-5 5c-3 2-7 0-6-8s4-14 10-14z"/><path d="M15 21v6M12 24h6"/><circle cx="31" cy="21" r="1.4"/><circle cx="35" cy="25" r="1.4"/></symbol>
+    <symbol id="sh-i-drone" viewBox="0 0 48 48"><rect x="19" y="20" width="10" height="8" rx="3"/><path d="M19 22l-8-8M29 22l8-8M19 26l-8 8M29 26l8 8"/><ellipse cx="9" cy="12" rx="6" ry="2"/><ellipse cx="39" cy="12" rx="6" ry="2"/><ellipse cx="9" cy="36" rx="6" ry="2"/><ellipse cx="39" cy="36" rx="6" ry="2"/></symbol>
+    <symbol id="sh-i-cart" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.6 12.2a1.6 1.6 0 0 0 1.6 1.3h8.2a1.6 1.6 0 0 0 1.6-1.2L21 8H6"/></symbol>
+  </svg>
+
+  <div class="sh-wrap">
+
+    <!-- ========== SHOP BY CATEGORY ========== -->
+    <div class="sh-head">
+      <div class="sh-title">
+        <h2>Shop by Category</h2>
+        <svg class="sh-swoosh" viewBox="0 0 26 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8c6-1 12-4 22-6"/><path d="M8 9c5-.5 9-2 14-4" opacity=".7"/></svg>
+      </div>
+      <a class="sh-viewall" href="categories.html">View all categories <span class="sh-chev">»</span></a>
+    </div>
+
+    <div class="sh-cats">
+      <a class="sh-cat" href="shop.html?category=headphones"><img src="img/headph.png" alt="" width="100" height="100"><span>Headphones</span></a>
+      <a class="sh-cat" href="shop.html?category=smart-watches"><img src="img/watchc.png" alt="" width="100" height="100"><span>Smart Watches</span></a>
+      <a class="sh-cat" href="shop.html?category=smartphones"><img src="img/phone.png" alt="" width="100" height="100"><span>Smartphones</span></a>
+      <a class="sh-cat" href="shop.html?category=laptops"><img src="img/leno.png" alt="" width="100" height="100"><span>Laptops</span></a>
+      <a class="sh-cat" href="shop.html?category=cameras"><img src="img/cam.png" alt="" width="100" height="100"><span>Cameras</span></a>
+      <a class="sh-cat" href="shop.html?category=speakers"><img src="img/speak.png" alt="" width="100" height="100"><span>Speakers</span></a>
+      <a class="sh-cat" href="shop.html?category=gaming"><img src="img/contro.png" alt="" width="100" height="100"><span>Gaming</span></a>
+      <a class="sh-cat" href="shop.html?category=drones"><img src="img/drone.png" alt="" width="100" height="100"><span>Drones</span></a>
+    </div>
+
+    <!-- ========== FEATURED PRODUCTS ========== -->
+    <div class="sh-head">
+      <div class="sh-title">
+        <h2>Featured Products</h2>
+        <svg class="sh-swoosh" viewBox="0 0 26 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8c6-1 12-4 22-6"/><path d="M8 9c5-.5 9-2 14-4" opacity=".7"/></svg>
+      </div>
+      <a class="sh-viewall" href="shop.html">View all products <span class="sh-chev">»</span></a>
+    </div>
+
+    <!-- Pour mettre ta vraie photo : remplace le <svg> par <img src="images/ton-produit.png" alt="..."> -->
+    <div class="sh-products">
+
+      <article class="sh-product">
+        <div class="sh-thumb"><span class="sh-badge">New</span><svg><use href="#sh-i-headphones"/></svg></div>
+        <h3 class="sh-name"><a href="produit.html?id=1">Nova Pro Wireless Headphones</a></h3>
+        <div class="sh-price"><strong>45 000 FCFA</strong></div>
+        <div class="sh-rating"><span class="sh-stars" style="--r:4.5">★★★★★</span><small>(128)</small></div>
+        <div class="sh-actions">
+          <button class="sh-add" data-product-id="1">Add to Cart</button>
+          <button class="sh-cart" data-product-id="1" aria-label="Ajouter au panier"><svg><use href="#sh-i-cart"/></svg></button>
+        </div>
+      </article>
+
+      <article class="sh-product">
+        <div class="sh-thumb"><svg><use href="#sh-i-watch"/></svg></div>
+        <h3 class="sh-name"><a href="produit.html?id=3">FitPulse Smart Watch</a></h3>
+        <div class="sh-price"><strong>32 000 FCFA</strong><s>27 900 FCFA</s></div>
+        <div class="sh-rating"><span class="sh-stars" style="--r:4.5">★★★★★</span><small>(98)</small></div>
+        <div class="sh-actions">
+          <button class="sh-add" data-product-id="3">Add to Cart</button>
+          <button class="sh-cart" data-product-id="3" aria-label="Ajouter au panier"><svg><use href="#sh-i-cart"/></svg></button>
+        </div>
+      </article>
+
+      <article class="sh-product">
+        <div class="sh-thumb"><svg><use href="#sh-i-phone"/></svg></div>
+        <h3 class="sh-name"><a href="produit.html?id=5">Zenith X5 Smartphone</a></h3>
+        <div class="sh-price"><strong>185 000 FCFA</strong></div>
+        <div class="sh-rating"><span class="sh-stars" style="--r:4.5">★★★★★</span><small>(84)</small></div>
+        <div class="sh-actions">
+          <button class="sh-add" data-product-id="5">Add to Cart</button>
+          <button class="sh-cart" data-product-id="5" aria-label="Ajouter au panier"><svg><use href="#sh-i-cart"/></svg></button>
+        </div>
+      </article>
+
+      <article class="sh-product">
+        <div class="sh-thumb"><span class="sh-badge">Sale</span><svg><use href="#sh-i-laptop"/></svg></div>
+        <h3 class="sh-name"><a href="produit.html?id=7">AeroBook 15 Laptop</a></h3>
+        <div class="sh-price"><strong>389 000 FCFA</strong><s>425 000 FCFA</s></div>
+        <div class="sh-rating"><span class="sh-stars" style="--r:4.5">★★★★★</span><small>(74)</small></div>
+        <div class="sh-actions">
+          <button class="sh-add" data-product-id="7">Add to Cart</button>
+          <button class="sh-cart" data-product-id="7" aria-label="Ajouter au panier"><svg><use href="#sh-i-cart"/></svg></button>
+        </div>
+      </article>
+
+      <article class="sh-product">
+        <div class="sh-thumb"><svg><use href="#sh-i-camera"/></svg></div>
+        <h3 class="sh-name"><a href="produit.html?id=9">Vision D200 DSLR Camera</a></h3>
+        <div class="sh-price"><strong>340 000 FCFA</strong></div>
+        <div class="sh-rating"><span class="sh-stars" style="--r:4.5">★★★★★</span><small>(86)</small></div>
+        <div class="sh-actions">
+          <button class="sh-add" data-product-id="9">Add to Cart</button>
+          <button class="sh-cart" data-product-id="9" aria-label="Ajouter au panier"><svg><use href="#sh-i-cart"/></svg></button>
+        </div>
+      </article>
+
+      <article class="sh-product">
+        <div class="sh-thumb"><svg><use href="#sh-i-speaker"/></svg></div>
+        <h3 class="sh-name"><a href="produit.html?id=11">BoomBox Portable Speaker</a></h3>
+        <div class="sh-price"><strong>28 000 FCFA</strong></div>
+        <div class="sh-rating"><span class="sh-stars" style="--r:4.5">★★★★★</span><small>(112)</small></div>
+        <div class="sh-actions">
+          <button class="sh-add" data-product-id="11">Add to Cart</button>
+          <button class="sh-cart" data-product-id="11" aria-label="Ajouter au panier"><svg><use href="#sh-i-cart"/></svg></button>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+<section class="reviews-section">
+  <div class="rv-wrap">
+
+    <div class="rv-head">
+      <div class="rv-title">
+        <h2>What Our Customers Say</h2>
+        <svg class="rv-swoosh" viewBox="0 0 26 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8c6-1 12-4 22-6"/><path d="M8 9c5-.5 9-2 14-4" opacity=".7"/></svg>
+      </div>
+      <a class="rv-viewall" href="shop.html">Voir tous les produits <span class="rv-chev">»</span></a>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+    <!-- Pour mettre une vraie photo : remplace le <svg> par <img src="images/client.jpg" alt="Alex M."> -->
+    <div class="rv-grid">
+
+      <article class="rv-card">
+        <div class="rv-body">
+          <div class="rv-quote" aria-hidden="true">&ldquo;</div>
+          <div>
+            <div class="rv-stars" aria-label="5 étoiles">★★★★★</div>
+            <p class="rv-text">Amazing quality and super fast delivery! TechHaven is my go-to store for all things tech.</p>
+          </div>
+        </div>
+        <div class="rv-author">
+          <div class="rv-avatar"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
+          <div>
+            <div class="rv-name">Alex M.</div>
+            <div class="rv-role">Verified Buyer</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="rv-card">
+        <div class="rv-body">
+          <div class="rv-quote" aria-hidden="true">&ldquo;</div>
+          <div>
+            <div class="rv-stars" aria-label="5 étoiles">★★★★★</div>
+            <p class="rv-text">The products are genuine and the customer support is outstanding. Highly recommended!</p>
+          </div>
+        </div>
+        <div class="rv-author">
+          <div class="rv-avatar"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
+          <div>
+            <div class="rv-name">Jessica R.</div>
+            <div class="rv-role">Verified Buyer</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="rv-card">
+        <div class="rv-body">
+          <div class="rv-quote" aria-hidden="true">&ldquo;</div>
+          <div>
+            <div class="rv-stars" aria-label="5 étoiles">★★★★★</div>
+            <p class="rv-text">Great deals and a wide range of gadgets. I always find something new and exciting here.</p>
+          </div>
+        </div>
+        <div class="rv-author">
+          <div class="rv-avatar"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
+          <div>
+            <div class="rv-name">David L.</div>
+            <div class="rv-role">Verified Buyer</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="home-promo-section">
+  <div class="promo-banner">
+    <div class="promo-content">
+      <span class="promo-tag">OFFRE LIMITÉE</span>
+      <h2>JUSQU'À <span>30%</span> DE RÉDUCTION</h2>
+      <p>Les meilleures offres tech, pendant un temps limité.</p>
+
+      <div class="countdown" id="countdown" aria-label="Fin de l'offre">
+        <div class="time-box"><strong id="days">02</strong><span>JOURS</span></div>
+        <div class="time-box"><strong id="hours">14</strong><span>HEURES</span></div>
+        <div class="time-box"><strong id="minutes">36</strong><span>MINS</span></div>
+        <div class="time-box"><strong id="seconds">48</strong><span>SECS</span></div>
+      </div>
+
+      <a href="promo.html" class="btn-deals">VOIR LES PROMOS <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+    <div class="promo-visual">
+      <img src="img/hoverimg2.png" alt="Offres promotionnelles IT Haven">
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    
+    <!-- Colonne 1 : Logo & Description -->
+    <div class="footer-col brand-col">
+      <div class="footer-logo">
+        <span class="logo-icon">TH</span> <strong>TECHHAVEN</strong>
+      </div>
+      <p class="footer-desc">
+        Your ultimate destination for premium electronics and gadgets. Quality tech, trusted service, always.
+      </p>
+      <div class="social-icons">
+        <a href="contact.html" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="contact.html" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="contact.html" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+        <a href="contact.html" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+    </div>
+
+    <!-- Colonne 2 : Shop -->
+    <div class="footer-col">
+      <h3>SHOP</h3>
+      <ul>
+        <li><a href="shop.html">Tous les produits</a></li>
+        <li><a href="shop.html?filter=new">Nouveautés</a></li>
+        <li><a href="shop.html?filter=bestsellers">Meilleures ventes</a></li>
+        <li><a href="promo.html">Promotions</a></li>
+        <li><a href="categories.html">Catégories</a></li>
+        <li><a href="admin.html">Administration</a></li>
+      </ul>
+    </div>
+
+    <!-- Colonne 3 : Customer Service -->
+    <div class="footer-col">
+      <h3>CUSTOMER SERVICE</h3>
+      <ul>
+        <li><a href="contact.html">Centre d'aide</a></li>
+        <li><a href="contact.html">Livraison</a></li>
+        <li><a href="contact.html">Retours & remboursements</a></li>
+        <li><a href="contact.html">Suivre ma commande</a></li>
+        <li><a href="contact.html">Garantie</a></li>
+      </ul>
+    </div>
+
+    <!-- Colonne 4 : Company -->
+    <div class="footer-col">
+      <h3>COMPANY</h3>
+      <ul>
+        <li><a href="contact.html">À propos</a></li>
+        <li><a href="contact.html">Nous rejoindre</a></li>
+        <li><a href="contact.html">Blog</a></li>
+        <li><a href="contact.html">Confidentialité</a></li>
+        <li><a href="contact.html">Conditions générales</a></li>
+      </ul>
+    </div>
+
+    <!-- Colonne 5 : Newsletter (Stay Connected) -->
+    <div class="footer-col newsletter-col">
+      <h3>STAY CONNECTED</h3>
+      <p>Subscribe to get the latest updates, exclusive offers, and new arrivals.</p>
+      <form class="newsletter-form">
+        <input type="email" placeholder="Enter your email" required>
+        <button type="submit" aria-label="S'abonner"><i class="fa-solid fa-paper-plane"></i></button>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- Barre du bas : Copyright & Paiements sécurisés -->
+  <div class="footer-bottom">
+    <p>&copy; 2026 TechHaven. All rights reserved.</p>
+    <div class="payment-security">
+      <span class="secure-badge"><i class="fa-solid fa-lock"></i> Secure Payments</span>
+      <div class="payment-icons">
+        <i class="fa-brands fa-cc-visa" title="Visa"></i>
+        <i class="fa-brands fa-cc-mastercard" title="Mastercard"></i>
+        <i class="fa-brands fa-cc-paypal" title="PayPal"></i>
+        <i class="fa-brands fa-cc-apple-pay" title="Apple Pay"></i>
+        <i class="fa-brands fa-google-pay" title="Google Pay"></i>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

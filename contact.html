@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contactez IT Haven pour vos questions produits, commandes et devis.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="contact.css">
+  <link rel="stylesheet" href="cart.css">
+  <link rel="stylesheet" href="responsive.css">
+  <script src="catalog.js" defer></script>
+  <script src="cart.js" defer></script>
+  <script src="search.js" defer></script>
+  <script src="app.js" defer></script>
+  <title>Contact — IT Haven</title>
+</head>
+<body>
+  <header class="header">
+    <a href="index.html" class="logo-wrapper">
+      <i class="fas fa-graduation-cap logo-img" aria-hidden="true"></i>
+      <div class="logo-text">
+        <div class="brand-name"><span class="brand-white">IT</span><span class="brand-orange">HAVEN</span></div>
+        <span class="tagline">REFERENCE TECH.</span>
+      </div>
+    </a>
+
+    <nav class="nav">
+      <a href="index.html" class="nav-link">ACCUEIL</a>
+      <div class="dropdown">
+        <a href="shop.html" class="nav-link">SHOP <i class="fas fa-chevron-down"></i></a>
+        <div class="dropdown-menu">
+          <a href="shop.html?filter=all">Tous les produits</a>
+          <a href="shop.html?filter=new">Nouveautés</a>
+          <a href="shop.html?filter=bestsellers">Meilleures ventes</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="categories.html" class="nav-link">CATEGORIES <i class="fas fa-chevron-down"></i></a>
+        <div class="dropdown-menu">
+          <a href="shop.html?category=headphones">Écouteurs</a>
+          <a href="shop.html?category=smartphones">Téléphones</a>
+          <a href="shop.html?category=laptops">Ordinateurs</a>
+        </div>
+      </div>
+      <a href="promo.html" class="nav-link">PROMOS</a>
+      <a href="wishlist.html" class="nav-link">Wishlist <span id="wishlist-count" class="wishlist-count">0</span></a>
+      <a href="contact.html" class="nav-link">CONTACT</a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="search-box" id="search-box">
+        <input type="search" id="search-input" class="search-input" placeholder="Rechercher..." aria-label="Rechercher un produit" autocomplete="off">
+        <button type="button" id="search-btn" class="action-btn" aria-label="Rechercher"><i class="fas fa-search"></i></button>
+      </div>
+      <a href="auth.html" id="account-link" class="action-btn" aria-label="Compte"><i class="fas fa-user"></i></a>
+      <button type="button" id="cart-btn" class="action-btn cart-btn" aria-label="Panier">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cart-count" class="cart-count">0</span>
+      </button>
+      <div id="search-results" class="search-results" aria-live="polite"></div>
+    </div>
+  </header>
+
+  <section id="contact" class="contact-section">
+    <div class="contact-header">
+      <span class="contact-badge">Support &amp; Devis</span>
+      <h2>CONTACTER <span>ITHAVEN</span></h2>
+      <p>Une question sur un produit, une commande ou une configuration sur mesure ? Écris-nous directement.</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="info-card">
+          <i class="fas fa-map-marker-alt"></i>
+          <div><h3>Localisation</h3><p>Lomé, Togo — ITHAVEN REFERENCE TECH.</p></div>
+        </div>
+        <div class="info-card">
+          <i class="fas fa-phone-alt"></i>
+          <div><h3>Téléphone / WhatsApp</h3><p>+228 90 00 00 00</p></div>
+        </div>
+        <div class="info-card">
+          <i class="fas fa-envelope"></i>
+          <div><h3>Email</h3><p>contact@ithaven.tech</p></div>
+        </div>
+        <div class="info-card">
+          <i class="fas fa-clock"></i>
+          <div><h3>Disponibilité</h3><p>Lun – Sam : 08h00 – 19h00</p></div>
+        </div>
+      </div>
+
+      <form id="contact-form" class="contact-form">
+        <div class="form-group">
+          <label for="contact-name">Nom complet</label>
+          <input type="text" id="contact-name" name="name" placeholder="Ton nom" required>
+        </div>
+        <div class="form-group">
+          <label for="contact-email">Adresse email</label>
+          <input type="email" id="contact-email" name="email" placeholder="ton.email@exemple.com" required>
+        </div>
+        <div class="form-group">
+          <label for="contact-subject">Sujet</label>
+          <select id="contact-subject" name="subject">
+            <option value="Information produit">Information produit</option>
+            <option value="Commande / Livraison">Commande / Livraison</option>
+            <option value="SAV / Garantie">SAV / Garantie</option>
+            <option value="Devis / Partenariat">Devis / Partenariat</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="contact-message">Message</label>
+          <textarea id="contact-message" name="message" rows="5" placeholder="Décris ta demande..." required></textarea>
+        </div>
+        <button type="submit" id="contact-submit" class="contact-btn"><i class="fas fa-paper-plane"></i> Envoyer le message</button>
+        <p id="contact-feedback" class="contact-feedback" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-col brand-col">
+        <div class="footer-logo"><span class="logo-icon">TH</span> <strong>TECHHAVEN</strong></div>
+        <p class="footer-desc">Your ultimate destination for premium electronics and gadgets. Quality tech, trusted service, always.</p>
+        <div class="social-icons">
+          <a href="contact.html" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="contact.html" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="contact.html" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+          <a href="contact.html" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>SHOP</h3>
+        <ul>
+          <li><a href="shop.html">All Products</a></li>
+          <li><a href="shop.html?filter=new">New Arrivals</a></li>
+          <li><a href="promo.html">Deals &amp; Offers</a></li>
+          <li><a href="wishlist.html">Wishlist</a></li>
+          <li><a href="admin.html">Administration</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>CUSTOMER SERVICE</h3>
+        <ul>
+          <li><a href="contact.html">Help Center</a></li>
+          <li><a href="contact.html">Shipping &amp; Delivery</a></li>
+          <li><a href="contact.html">Returns &amp; Refunds</a></li>
+          <li><a href="contact.html">Warranty Information</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>COMPANY</h3>
+        <ul>
+          <li><a href="index.html">About Us</a></li>
+          <li><a href="contact.html">Careers</a></li>
+          <li><a href="index.html">Blog</a></li>
+          <li><a href="contact.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col newsletter-col">
+        <h3>STAY CONNECTED</h3>
+        <p>Subscribe to get the latest updates, exclusive offers, and new arrivals.</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Enter your email" required>
+          <button type="submit" aria-label="S'abonner"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 TechHaven. All rights reserved.</p>
+      <div class="payment-security">
+        <span class="secure-badge"><i class="fa-solid fa-lock"></i> Secure Payments</span>
+        <div class="payment-icons">
+          <i class="fa-brands fa-cc-visa" title="Visa"></i>
+          <i class="fa-brands fa-cc-mastercard" title="Mastercard"></i>
+          <i class="fa-brands fa-cc-paypal" title="PayPal"></i>
+          <i class="fa-brands fa-cc-apple-pay" title="Apple Pay"></i>
+          <i class="fa-brands fa-google-pay" title="Google Pay"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

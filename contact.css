@@ -1,0 +1,586 @@
+/* --- VARIABLES DE COULEURS --- */
+:root {
+    --bg-main: #0b0c10;
+    --bg-card: #1a1d24;
+    --text-main: #ffffff;
+    --text-muted: #94a3b8;
+    --accent-orange: #8B5CF6;
+}
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+
+/* --- VARIABLES & RESET --- */
+:root {
+    --bg-header: #0d0d0d;
+    --bg-dropdown: #181818;
+    --accent-orange: #8B5CF6;
+    --text-white: #ffffff;
+    --text-muted: #a0a0a0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+/* --- CONTENEUR PRINCIPAL DU HEADER --- */
+.header {
+    background-color: var(--bg-header);
+    height: 80px; /* Hauteur fixe propre et compacte */
+    padding: 0 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #1f1f1f;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* --- SECTION 1 : LOGO --- */
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.logo-img {
+    height: 42px;
+    width: auto;
+    object-fit: contain;
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.brand-name {
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    line-height: 1.1;
+}
+
+.brand-white {
+    color: var(--text-white);
+}
+
+.brand-orange {
+    color: #9D6BFF;
+}
+
+.tagline {
+    color: var(--text-muted);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+/* --- SECTION 2 : MENU DE NAVIGATION --- */
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.nav-link {
+    color: var(--text-white);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 8px 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s ease;
+}
+
+.nav-link i {
+    font-size: 0.65rem;
+    transition: transform 0.2s ease;
+}
+
+/* Effet au survol et lien actif (comme "HOME" sur l'image) */
+.nav-link:hover,
+.nav-link.active {
+    color: var(--accent-orange);
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--accent-orange);
+}
+
+/* --- MENUS DÉROULANTS (DROPDOWNS) --- */
+.dropdown {
+    position: relative;
+}
+
+.dropdown:hover .nav-link i {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--bg-dropdown);
+    min-width: 190px;
+    padding: 8px 0;
+    border-radius: 6px;
+    border: 1px solid #2a2a2a;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    
+    /* Caché par défaut avec transition fluide */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.2s ease;
+}
+
+.dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu a {
+    display: block;
+    color: var(--text-white);
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 10px 18px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.dropdown-menu a:hover {
+    background-color: #252525;
+    color: var(--accent-orange);
+}
+
+/* --- SECTION 3 : ICÔNES À DROITE --- */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    color: var(--text-white);
+    font-size: 1.15rem;
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+}
+
+.action-btn:hover {
+    color: var(--accent-orange);
+}
+
+/* Badge orange sur le panier */
+.cart-badge {
+    position: absolute;
+    top: -7px;
+    right: -9px;
+    background-color: var(--accent-orange);
+    color: var(--text-white);
+    font-size: 0.65rem;
+    font-weight: 700;
+    height: 17px;
+    min-width: 17px;
+    padding: 0 4px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.contact-section {
+  padding: 60px 5%;
+  background: #0b0b0e;
+  color: #ffffff;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.contact-header {
+  max-width: 620px;
+  margin-bottom: 36px;
+}
+
+.contact-badge {
+  display: inline-block;
+  background: rgba(139, 92, 246, 0.15);
+  color: #8B5CF6;
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.contact-header h2 {
+  margin: 0 0 10px;
+  font-size: clamp(1.7rem, 3.5vw, 2.5rem);
+}
+
+.contact-header h2 span {
+  color: #8B5CF6;
+}
+
+.contact-header p {
+  margin: 0;
+  color: #a1a1aa;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 28px;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #141419;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.info-card i {
+  font-size: 1.2rem;
+  color: #8B5CF6;
+  width: 24px;
+  text-align: center;
+}
+
+.info-card h3 {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+}
+
+.info-card p {
+  margin: 0;
+  color: #a1a1aa;
+  font-size: 0.9rem;
+}
+
+.contact-form {
+  background: #141419;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #e4e4e7;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: #0b0b0e;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 11px 14px;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #8B5CF6;
+}
+
+.contact-btn {
+  background: #8B5CF6;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s ease;
+}
+
+.contact-btn:hover {
+  background: #9D6BFF;
+}
+
+.contact-feedback {
+  margin: 0;
+  font-size: 0.9rem;
+  min-height: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* --- PIED DE PAGE (FOOTER) --- */
+.site-footer {
+  background-color: #0b0c0e;
+  border-top: 1px solid var(--card-border);
+  color: var(--text-main);
+  padding: 60px 20px 20px;
+  margin-top: 60px;
+  font-size: 0.85rem;
+}
+
+.footer-container {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 1.8fr;
+  gap: 30px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+/* Style des colonnes */
+.footer-col h3 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 18px;
+  color: var(--text-main);
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-col ul li a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-col ul li a:hover {
+  color: var(--accent-orange);
+}
+
+/* Logo du pied de page */
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  margin-bottom: 14px;
+}
+
+.footer-logo .logo-icon {
+  background-color: var(--accent-orange);
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+
+.footer-desc {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* Réseaux sociaux */
+.social-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.social-icons a {
+  width: 34px;
+  height: 34px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.social-icons a:hover {
+  background-color: var(--accent-orange);
+  border-color: var(--accent-orange);
+}
+
+/* Formulaire Newsletter */
+.newsletter-col p {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 6px;
+}
+
+.newsletter-form input {
+  flex: 1;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  padding: 10px 14px;
+  color: #fff;
+  font-size: 0.8rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.newsletter-form input:focus {
+  border-color: var(--accent-orange);
+}
+
+.newsletter-form button {
+  background-color: var(--accent-orange);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.newsletter-form button:hover {
+  background-color: var(--accent-hover);
+}
+
+/* Bas de page (Copyright & Paiements) */
+.footer-bottom {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 25px;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.payment-security {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.secure-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+}
+
+.payment-icons {
+  display: flex;
+  gap: 10px;
+  font-size: 1.5rem;
+  color: #b0b5bc;
+}

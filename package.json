@@ -1,0 +1,25 @@
+{
+  "name": "ithaven-ecommerce",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Boutique e-commerce IT Haven",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "migrate": "node migrate.js",
+    "check": "node --check server.js && node --check migrate.js && node --check admin.js && node --check app.js && node --check auth.js && node --check cart.js && node --check catalog.js && node --check res.js && node --check search.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.14.1",
+    "nodemailer": "^10.6.1",
+    "xlsx": "^0.18.5"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

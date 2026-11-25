@@ -1,0 +1,614 @@
+================================================================================
+IT HAVEN - FICHIER DE PRESENTATION POUR LA CLASSE
+Fonctionnalites detaillees + extraits a distribuer aux membres du groupe
+================================================================================
+
+Ce fichier sert de support oral et ecrit pour la presentation du projet.
+Il contient :
+  1. Une presentation generale du projet.
+  2. L'explication detaillee de toutes les fonctionnalites.
+  3. Un deroule de demonstration a montrer a la classe.
+  4. Des extraits de texte prets a lire, un par membre.
+  5. Une foire aux questions avec reponses courtes.
+
+Les noms "Membre 1", "Membre 2", etc. peuvent etre remplaces par les vrais prenoms.
+
+
+--------------------------------------------------------------------------------
+1. PRESENTATION GENERALE (a lire au debut)
+--------------------------------------------------------------------------------
+
+Bonjour a tous. Nous vous presentons IT Haven, une boutique en ligne de produits
+technologiques developpee en Node.js, Express et MySQL.
+
+Le projet repond a un besoin simple : permettre a un client de decouvrir des
+produits, de les rechercher, de les ajouter au panier, d'appliquer une promotion,
+de choisir une zone de livraison et de valider une commande. En parallele, un
+administrateur dispose d'un backoffice complet pour suivre les ventes, gerer le
+catalogue, confirmer les commandes, editer les factures et piloter les actions
+marketing.
+
+Notre travail a porte sur deux parties :
+  - une interface client responsive, accessible sur ordinateur et sur telephone ;
+  - une interface administrateur securisee par connexion JWT.
+
+Le serveur stocke les donnees dans MySQL et expose une API REST. Le frontend
+utilise du JavaScript natif, sans framework, ce qui rend le projet leger et
+facile a comprendre.
+
+
+--------------------------------------------------------------------------------
+2. OBJECTIFS DU PROJET
+--------------------------------------------------------------------------------
+
+Objectif general :
+  Creer une plateforme e-commerce complete, fonctionnelle et presentable.
+
+Objectifs specifiques :
+  - Offrir une navigation claire et responsive.
+  - Permettre une recherche rapide des produits.
+  - Afficher les promotions et les nouveautes.
+  - Gerer un panier persistant avec quantites et couleurs.
+  - Calculer automatiquement les frais de livraison selon la localisation.
+  - Appliquer des codes promo avec conditions minimales.
+  - Enregistrer les commandes cote serveur avec repli hors ligne.
+  - Securiser l'acces administrateur avec JWT et role admin.
+  - Fournir un backoffice avec tableau de bord, CRUD, facturation et CRM.
+  - Automatiser la relance des paniers abandonnes.
+
+
+--------------------------------------------------------------------------------
+3. ARCHITECTURE TECHNIQUE
+--------------------------------------------------------------------------------
+
+Technologies utilisees :
+  - Node.js : environnement d'execution du serveur.
+  - Express : creation des routes et de l'API REST.
+  - MySQL : base de donnees relationnelle.
+  - mysql2/promise : connexion asynchrone a MySQL.
+  - bcryptjs : hachage des mots de passe.
+  - jsonwebtoken : generation et verification des tokens d'authentification.
+  - dotenv : lecture des variables d'environnement dans le fichier .env.
+  - cors : autorisation des requetes depuis le navigateur.
+  - xlsx : import/export Excel et CSV.
+  - nodemailer : envoi des mails de relance.
+  - HTML, CSS et JavaScript natif : interface utilisateur.
+
+Fichiers principaux :
+  - server.js   : toutes les routes API, la logique metier, l'authentification,
+                  la generation des factures et la relance des paniers.
+  - migrate.js  : migration non destructive de la base et creation du compte admin.
+  - bd.sql      : schema SQL complet pour une installation neuve.
+  - admin.html / admin.css / admin.js : backoffice administrateur.
+  - app.js      : navigation, countdown, boutique, promotions, categories,
+                  fiche produit, wishlist, contact et newsletter.
+  - cart.js     : panier, localisation, codes promo, commande et confirmation.
+  - search.js   : recherche instantanee dans le header.
+  - auth.js     : connexion et inscription cote client.
+  - catalog.js  : donnees de secours et fonctions de calcul partagees.
+  - responsive.css : adaptation mobile de toutes les pages.
+
+Principe de fonctionnement :
+  Le navigateur charge les pages HTML. Les scripts JS appellent soit les donnees
+  locales de catalog.js, soit les endpoints de server.js. Si le serveur est
+  indisponible, plusieurs fonctionnalites continuent avec des donnees de secours
+  ou un stockage local navigateur.
+
+
+--------------------------------------------------------------------------------
+4. FONCTIONNALITES COTE CLIENT - DETAIL
+--------------------------------------------------------------------------------
+
+4.1 Page d'accueil
+------------------
+La page d'accueil presente :
+  - un bandeau d'accueil avec l'identite IT Haven ;
+  - un compte a rebours pour la promotion en cours ;
+  - des produits en vedette cliquables ;
+  - des catégories avec nombre de produits ;
+  - une section promotions ;
+  - des témoignages clients ;
+  - un formulaire d'inscription a la newsletter.
+
+Interet pour l'utilisateur : il voit immediatement les offres et peut acceder
+rapidement aux produits sans chercher dans tout le site.
+
+4.2 Navigation responsive
+-------------------------
+Le header contient :
+  - le logo et la tagline ;
+  - les liens Accueil, Shop, Categories, Promotions, Contact ;
+  - la recherche ;
+  - le bouton panier avec badge ;
+  - le bouton compte/wishlist ;
+  - un menu burger sur mobile.
+
+Le menu mobile s'ouvre et se ferme au clic, se ferme avec la touche Echap et se
+reinitialise quand la taille de l'ecran redevient large. Les sous-menus
+fonctionnent au toucher sur telephone.
+
+4.3 Recherche instantanee
+-------------------------
+La recherche du header :
+  - s'ouvre au clic sur l'icone ;
+  - lance une requete apres 250 millisecondes de frappe ;
+  - appelle GET /api/products/search?q=... ;
+  - affiche jusqu'a 8 resultats avec image, nom et prix ;
+  - permet d'ajouter directement un produit au panier depuis les resultats ;
+  - utilise une recherche locale de secours si l'API ne repond pas ;
+  - affiche un message "Aucun resultat" quand il n'y a pas de correspondance.
+
+4.4 Boutique et filtres
+-----------------------
+La page shop.html affiche les produits sous forme de cartes. Chaque carte contient
+l'image, la categorie, le nom, le prix, le stock, un bouton wishlist et un bouton
+"Ajouter au panier".
+
+Filtres disponibles :
+  - Tous les produits ;
+  - Nouveautes ;
+  - Meilleures ventes ;
+  - filtre par categorie via l'URL, par exemple ?category=smartphones ;
+  - recherche textuelle interne sur le nom, la categorie et la description.
+
+Les donnees sont chargees depuis GET /api/products. Si l'API echoue, le catalogue
+local de catalog.js prend le relais.
+
+4.5 Page promotions
+-------------------
+La page promo.html affiche uniquement les produits avec promo_price inferieur au
+prix initial. Elle calcule et affiche le pourcentage de reduction, par exemple
+-20 %. Des filtres permettent de trier les promotions par groupes : laptops,
+gaming et accessoires.
+
+4.6 Categories
+--------------
+La page categories.html presente les grandes familles de produits. Pour chaque
+categorie, le lien "Voir les X produit(s)" est mis a jour avec le nombre reel de
+produits renvoye par GET /api/categories/counts.
+
+4.7 Fiche produit
+-----------------
+La page produit.html recupere l'identifiant dans l'URL : ?id=...
+Elle affiche :
+  - l'image du produit ;
+  - la categorie ;
+  - le nom ;
+  - les etoiles et le nombre de ventes ;
+  - la description ;
+  - le prix actuel et l'ancien prix si le produit est en promotion ;
+  - le pourcentage de reduction ;
+  - le stock disponible ou "Rupture de stock" ;
+  - un selecteur de quantite de 1 a 99 ;
+  - le bouton "Ajouter au panier" ;
+  - le bouton wishlist.
+
+4.8 Wishlist / favoris
+----------------------
+Les produits favoris sont enregistres dans localStorage sous la cle
+ithaven_wishlist. Le badge du header affiche le nombre d'articles favoris. La page
+wishlist.html liste les produits enregistres et permet de les ajouter au panier
+ou de les retirer des favoris.
+
+4.9 Panier
+----------
+Le panier est un tiroir lateral accessible depuis l'icone du header sur toutes
+les pages. Il est enregistre dans localStorage sous la cle ithaven_cart.
+
+Fonctions du panier :
+  - ajouter un produit avec quantite et couleur ;
+  - fusionner les lignes identiques (meme produit + meme couleur) ;
+  - augmenter ou diminuer la quantite ;
+  - supprimer une ligne ;
+  - vider le panier ;
+  - afficher un etat vide avec lien vers la boutique ;
+  - afficher un badge avec le nombre total d'articles ;
+  - mettre a jour le panier automatiquement dans les autres onglets du navigateur.
+
+4.10 Localisation et livraison
+------------------------------
+Trois zones sont disponibles :
+  - Lome Centre (Tokoin, Be, Nyekonakpoe) : 1 500 FCFA ;
+  - Agoe / Adidogome / Legbassito : 2 000 FCFA ;
+  - Baguida / Avepozo : 2 500 FCFA.
+
+Le choix est enregistre dans localStorage sous la cle ithaven_location et
+modifie immediatement le total affiche.
+
+4.11 Codes promo
+----------------
+Quatre codes sont disponibles :
+  - ITHAVEN10 : -10 % sur le sous-total ;
+  - VIP20 : -20 % avec un minimum de 100 000 FCFA ;
+  - TECH5000 : -5 000 FCFA avec un minimum de 20 000 FCFA ;
+  - LIVRAISON : livraison offerte.
+
+L'utilisateur peut choisir une categorie de promo, selectionner un code dans une
+liste ou saisir un code manuellement. Le systeme verifie la validite du code, le
+minimum d'achat et affiche un message de succes ou d'erreur. Le code actif peut
+etre retire. Si le panier change et que le code n'est plus applicable, il est
+automatiquement retire avec un message.
+
+4.12 Récapitulatif et validation de commande
+--------------------------------------------
+Le panier affiche en temps reel :
+  - le sous-total ;
+  - la reduction ;
+  - les frais de livraison ;
+  - le total a payer.
+
+Le bouton "Valider la commande" envoie POST /api/orders avec les articles, la
+zone de livraison et le code promo. Si le serveur repond, la commande est
+enregistree en base avec son numero. Si le serveur est injoignable, la commande
+est enregistree localement avec le mode "hors ligne". Dans les deux cas, une vue
+de confirmation s'affiche avec le numero, le total, le nombre d'articles, la
+livraison, le code promo et le mode d'enregistrement. Les 20 dernieres commandes
+locales sont consultables via le bouton "Voir mes commandes".
+
+4.13 Comptes clients
+--------------------
+La page auth.html propose deux onglets :
+  - Connexion ;
+  - Inscription.
+
+Les formulaires appellent POST /api/auth/login et POST /api/auth/register. Le
+token JWT est stocke dans ithaven_token et les informations utilisateur dans
+ithaven_user. Si l'utilisateur connecte a le role admin, il est redirige vers
+admin.html ; sinon vers index.html.
+
+4.14 Contact et newsletter
+--------------------------
+Le formulaire de contact envoie POST /api/contact. Si le serveur n'est pas
+disponible, le message est enregistre localement dans ithaven_contact_messages et
+un message d'information est affiche.
+
+Le formulaire de newsletter envoie POST /api/newsletter. En cas d'indisponibilite,
+l'e-mail est enregistre dans ithaven_newsletter.
+
+4.15 Affichage responsive
+-------------------------
+Le fichier responsive.css est charge sur toutes les pages. Il adapte :
+  - le header et le menu burger ;
+  - les dropdowns au toucher ;
+  - les grilles de produits ;
+  - les cartes ;
+  - les formulaires ;
+  - le tiroir panier ;
+  - les sections du backoffice.
+
+
+--------------------------------------------------------------------------------
+5. FONCTIONNALITES COTE ADMIN - DETAIL
+--------------------------------------------------------------------------------
+
+5.1 Securisation
+----------------
+Toutes les URLs /api/admin/* passent par deux middlewares :
+  - requireAuth : verifie la presence et la validite du token JWT ;
+  - requireAdmin : verifie que le role de l'utilisateur est "admin".
+
+Cote navigateur, admin.js appelle GET /api/admin/me des le chargement. Si la
+reponse est 401, 403 ou si le role n'est pas admin, l'utilisateur est redirige
+vers auth.html.
+
+5.2 Tableau de bord
+-------------------
+Le dashboard affiche en temps reel :
+  - le chiffre d'affaires hors commandes annulees ;
+  - le nombre de commandes ;
+  - le panier moyen ;
+  - le taux de conversion : commandes / visiteurs uniques * 100 ;
+  - le nombre de visiteurs uniques et le nombre total de visites ;
+  - un graphique en barres des meilleures ventes ;
+  - les alertes de rupture de stock ;
+  - les dernieres commandes.
+
+Les donnees sont actualisees automatiquement tant que la vue dashboard est
+active.
+
+5.3 Gestion du catalogue
+------------------------
+Le backoffice permet de :
+  - lister les produits avec recherche, filtre categorie et pagination ;
+  - creer un produit ;
+  - modifier un produit ;
+  - supprimer un produit ;
+  - gerer nom, slug, categorie, description, prix, promo_price, image, stock et
+    nouveaute ;
+  - gerer les declinaisons via la route /variants ;
+  - exporter les produits en CSV ou XLSX ;
+  - importer un fichier CSV ou XLSX avec apercu avant validation ;
+  - choisir le mode d'import : creation ou mise a jour.
+
+L'import cote navigateur utilise SheetJS pour lire le fichier, puis envoie les
+lignes a POST /api/admin/products/import.
+
+5.4 Gestion des commandes
+-------------------------
+L'administrateur peut :
+  - lister les commandes avec recherche, filtre par statut et pagination ;
+  - voir le detail d'une commande ;
+  - changer le statut : pending, paid, processing, shipped, delivered, cancelled ;
+  - cliquer sur "Confirmer la commande", ce qui passe la commande en paid et
+    affiche "payee" dans le libelle francais ;
+  - generer la facture avec GET /api/admin/orders/:id/invoice ;
+  - generer le bon de livraison avec GET /api/admin/orders/:id/delivery ;
+  - imprimer ces documents depuis une modale avec window.print().
+
+La feuille de style admin.css contient une regle @media print qui masque le
+header, la navigation, la sidebar et les boutons pour une impression propre.
+
+5.5 Marketing et fidelisation
+-----------------------------
+Le module marketing permet de :
+  - creer, modifier et supprimer des codes promo ;
+  - choisir le type : pourcentage, montant fixe ou livraison offerte ;
+  - definir un montant minimal et une date d'expiration ;
+  - creer et supprimer des ventes flash ;
+  - consulter les membres fideles ;
+  - creer et supprimer des codes de parrainage ;
+  - visualiser les paniers abandonnes ;
+  - declencher manuellement une relance sur les paniers selectionnes.
+
+5.6 Paniers abandonnes et relance automatique
+----------------------------------------------
+Un panier est considere abandonne apres une heure sans mise a jour. Le serveur
+lance une verification toutes les 15 minutes. Une relance par session est
+espacée d'au moins 24 heures.
+
+Si les variables SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS et MAIL_FROM sont
+configurees, le mail est envoyé avec Nodemailer. Sinon, la relance est enregistree
+dans la table cart_reminders avec le statut "queued". L'administrateur voit le
+nombre de mails envoyes et le nombre de mails en file d'attente.
+
+5.7 CRM clients
+---------------
+Le module clients affiche :
+  - le nom, l'e-mail et le telephone ;
+  - le total depense ;
+  - le nombre de commandes ;
+  - la date de derniere commande ;
+  - le segment : VIP, Fidele ou Nouveau.
+
+Regles de segmentation :
+  - VIP : plus de 300 000 FCFA depenses ;
+  - Fidele : plus de 100 000 FCFA depenses ;
+  - Nouveau : en dessous de 100 000 FCFA.
+
+L'administrateur peut rechercher un client, filtrer par segment, ouvrir une
+modale avec son historique d'achats et exporter la liste en CSV ou XLSX.
+
+5.8 Journal d'activite
+----------------------
+Les actions importantes sont enregistrees dans la table admin_activity :
+changement de statut, import, export, relance, modifications et suppressions.
+Cela permet de garder une trace des operations realisees dans le backoffice.
+
+
+--------------------------------------------------------------------------------
+6. BASE DE DONNEES
+--------------------------------------------------------------------------------
+
+Tables principales :
+  - users : clients et administrateurs ;
+  - categories : familles de produits ;
+  - products : produits, prix, stock, promotions ;
+  - promo_categories et promo_codes : promotions ;
+  - orders et order_items : commandes et lignes de commande ;
+  - wishlist_items : favoris ;
+  - contact_messages : messages recus ;
+  - newsletter_subscribers : inscriptions ;
+  - site_visits : visites ;
+  - cart_activity et cart_reminders : paniers et relances ;
+  - product_variants : declinaisons ;
+  - flash_sales : ventes flash ;
+  - loyalty_members et referral_codes : fidelisation et parrainage ;
+  - admin_activity : journal des actions admin.
+
+Important pour la presentation :
+  bd.sql est un fichier d'installation neuve. Il supprime et recrée les tables.
+  Pour une base deja existante, il faut utiliser npm run migrate, qui ajoute les
+  elements manquants sans detruire les donnees.
+
+
+--------------------------------------------------------------------------------
+7. DEMONSTRATION A LA CLASSE - SEQUENCE CONSEILLEE
+--------------------------------------------------------------------------------
+
+Etape 1 - Accueil
+  Montrer la page index.html, le bandeau, le compte a rebours et les produits en
+  vedette. Dire que la page est responsive.
+
+Etape 2 - Navigation mobile
+  Reduire la fenetre ou ouvrir sur telephone. Montrer le menu burger, les
+  sous-menus tactiles et la fermeture avec Echap.
+
+Etape 3 - Recherche
+  Cliquer sur la loupe, taper "casque" ou "telephone". Montrer les resultats
+  instantanes et l'ajout direct au panier depuis un resultat.
+
+Etape 4 - Boutique et filtres
+  Ouvrir shop.html, cliquer sur Nouveautes et Meilleures ventes, puis filtrer par
+  categorie. Montrer le nombre de produits avec le champ de recherche interne.
+
+Etape 5 - Fiche produit
+  Ouvrir un produit. Montrer le prix, l'ancien prix, le stock, le selecteur de
+  quantite, le bouton panier et le bouton favori.
+
+Etape 6 - Panier et promotions
+  Ajouter deux produits differents, ouvrir le panier, changer les quantites,
+  choisir Agoe, appliquer ITHAVEN10 ou LIVRAISON, puis montrer le recalcul du
+  total.
+
+Etape 7 - Commande
+  Cliquer sur "Valider la commande". Montrer la confirmation avec le numero de
+  commande, le total, la livraison et le mode d'enregistrement.
+
+Etape 8 - Backoffice
+  Ouvrir admin.html, se connecter avec le compte admin, montrer le dashboard,
+  puis la liste des commandes. Cliquer sur "Confirmer la commande" sur une
+  commande en attente, puis ouvrir la facture et le bon de livraison.
+
+Etape 9 - Catalogue admin
+  Modifier un produit, ouvrir les variantes, puis montrer l'export CSV ou XLSX.
+
+Etape 10 - Marketing et CRM
+  Montrer les codes promo, les paniers abandonnes, la liste des clients et les
+  segments VIP / Fidele / Nouveau.
+
+
+--------------------------------------------------------------------------------
+8. EXTRAITS A DISTRIBUER AUX MEMBRES DU GROUPE
+--------------------------------------------------------------------------------
+
+Chaque extrait peut etre lu tel quel ou legerement adapte avec le prenom du
+membre. La duree indiquee est approximative.
+
+--------------------------------------------------------------------------------
+EXTRAIT - MEMBRE 1 : Accueil, navigation et responsive (45 secondes)
+--------------------------------------------------------------------------------
+"Ma partie concerne l'accueil et la navigation. La page d'accueil presente
+l'identite de la boutique, un compte a rebours pour les promotions, les produits
+en vedette, les categories et un formulaire de newsletter. J'ai aussi travaille
+sur le header : il contient les liens principaux, la recherche, le panier et le
+compte. Sur mobile, un menu burger remplace la navigation classique. Il s'ouvre
+au clic, les sous-menus fonctionnent au toucher et le menu se ferme avec la touche
+Echap. Le fichier responsive.css adapte egalement les grilles, les cartes, les
+formulaires et le tiroir panier pour que l'experience reste correcte sur telephone."
+
+--------------------------------------------------------------------------------
+EXTRAIT - MEMBRE 2 : Recherche, boutique et fiches produit (50 secondes)
+--------------------------------------------------------------------------------
+"Je presente la partie catalogue cote client. La recherche du header attend 250
+millisecondes apres la derniere frappe, puis interroge l'API. Elle affiche jusqu'a
+huit resultats avec le prix et permet d'ajouter un produit directement au panier.
+Si le serveur n'est pas disponible, une recherche locale prend le relais. La page
+boutique affiche les produits sous forme de cartes avec filtres : tous, nouveautes,
+meilleures ventes et categories. Chaque produit renvoie a une fiche detail avec
+l'image, la description, le stock, l'ancien prix, le pourcentage de reduction, un
+selecteur de quantite et un bouton favori."
+
+--------------------------------------------------------------------------------
+EXTRAIT - MEMBRE 3 : Panier, promotions et commande (60 secondes)
+--------------------------------------------------------------------------------
+"Ma partie est le panier. C'est un tiroir lateral disponible sur toutes les pages.
+Les articles sont conserves dans le navigateur grace a localStorage, donc le
+panier reste apres rechargement. On peut ajouter, modifier les quantites,
+supprimer une ligne, vider le panier et choisir la zone de livraison. Trois zones
+sont prevues avec des frais differents. Pour les promotions, quatre codes sont
+disponibles et le systeme verifie le minimum d'achat avant de les appliquer. Le
+total est recalcule en direct avec le sous-total, la reduction et la livraison.
+Quand le client valide, la commande est envoyee au serveur. Si le serveur est hors
+service, elle est enregistree localement et une confirmation s'affiche quand meme."
+
+--------------------------------------------------------------------------------
+EXTRAIT - MEMBRE 4 : Backend, base de donnees et securite (60 secondes)
+--------------------------------------------------------------------------------
+"Je m'occupe du serveur et de la base de donnees. Le backend est developpe avec
+Express et MySQL. Il expose une API REST pour les produits, les categories, les
+promotions, l'authentification, les commandes, le contact, la newsletter et le
+suivi des visites. Les mots de passe sont haches avec bcrypt et les sessions
+utilisent des tokens JWT. Pour la base, nous avons un fichier bd.sql pour une
+installation neuve et un script migrate.js pour mettre a jour une base existante
+sans supprimer les donnees. Le script cree aussi le compte administrateur et les
+tables supplementaires du backoffice, comme les visites, les paniers abandonnes,
+les variantes et le journal d'activite."
+
+--------------------------------------------------------------------------------
+EXTRAIT - MEMBRE 5 : Backoffice, commandes et facturation (60 secondes)
+--------------------------------------------------------------------------------
+"Ma partie concerne le backoffice administrateur. L'acces est protege : sans token
+valide ou si le role n'est pas admin, la page redirige vers la connexion. Le
+tableau de bord affiche le chiffre d'affaires, le nombre de commandes, le panier
+moyen, le taux de conversion, les meilleures ventes et les alertes de stock. Dans
+le module commandes, l'administrateur peut changer le statut, confirmer une
+commande, ce qui la passe en payee, puis generer une facture et un bon de
+livraison imprimables. Le catalogue permet aussi de creer, modifier et supprimer
+des produits, de gerer les variantes et d'importer ou exporter des fichiers CSV et
+Excel."
+
+--------------------------------------------------------------------------------
+EXTRAIT - MEMBRE 6 : Marketing, CRM et automatisation (55 secondes)
+--------------------------------------------------------------------------------
+"Je presente la partie marketing et fidelisation. L'administrateur peut gerer les
+codes de reduction, les ventes flash, les codes de parrainage et les membres
+fideles. Les clients sont segments en VIP, Fidele et Nouveau selon leur total
+depense, et la liste peut etre exportee. Les paniers abandonnes sont detectes apres
+une heure d'inactivite. Toutes les quinze minutes, le serveur verifie s'il y a des
+paniers a relancer. Si une boite mail SMTP est configuree, le mail est envoye,
+sinon la relance est mise en file d'attente. Toutes ces actions sont journalisees
+dans la base."
+
+--------------------------------------------------------------------------------
+EXTRAIT - MEMBRE 7 : Tests, documentation et conclusion (45 secondes)
+--------------------------------------------------------------------------------
+"Ma partie concerne les verifications et la documentation. Nous avons un script
+npm run check qui controle la syntaxe de tous les fichiers JavaScript. Nous avons
+aussi teste les principales routes de l'API : les endpoints publics repondent,
+les endpoints admin refusent les requetes sans token et acceptent les requetes
+avec un token administrateur. Le fichier README explique l'installation, la
+configuration, la migration de la base, les identifiants admin, la liste des
+endpoints et le depannage. Ce fichier de presentation ressemble les
+fonctionnalites et les extraits pour que chaque membre puisse expliquer sa partie
+a la classe."
+
+
+--------------------------------------------------------------------------------
+9. REPONSE A UNE QUESTION POSSIBLE DE LA CLASSE
+--------------------------------------------------------------------------------
+
+Question : Que se passe-t-il si le serveur n'est pas demarre ?
+Reponse : Une grande partie de l'interface reste utilisable. Les produits de
+secours sont dans catalog.js, le panier et la wishlist sont dans localStorage, et
+les messages ou inscriptions sont enregistres localement. La validation de
+commande fonctionne aussi en mode hors ligne, mais elle ne sera pas enregistree
+dans MySQL.
+
+Question : Comment sont proteges les donnees admin ?
+Reponse : Les routes admin exigent un token JWT valide et le role admin. Les mots
+de passe sont haches avec bcrypt. Les fichiers sensibles comme server.js, bd.sql
+et package.json ne sont pas servis publiquement par le serveur statique.
+
+Question : Pourquoi utiliser migrate.js au lieu de reimporter bd.sql ?
+Reponse : Parce que bd.sql supprime toutes les tables. migrate.js, lui, ajoute
+uniquement ce qui manque et preserve les produits, les clients et les commandes
+deja presents.
+
+Question : Comment une commande est-elle confirmee ?
+Reponse : Dans le backoffice, l'administrateur ouvre la commande en attente et
+clique sur "Confirmer la commande". Le statut passe a paid, affiche "payee", et
+l'administrateur peut ensuite editer la facture ou le bon de livraison.
+
+Question : Le projet est-il responsive ?
+Reponse : Oui. Le menu burger, les grilles, les cartes, les formulaires, le panier
+et le backoffice sont adaptes aux petits ecrans grace a responsive.css et aux
+styles specifiques de admin.css.
+
+
+--------------------------------------------------------------------------------
+10. INFORMATIONS PRATIQUES POUR LA DEMONSTRATION
+--------------------------------------------------------------------------------
+
+Lancer le projet :
+  cd C:\Users\jeffs\Desktop\pa
+  npm install
+  npm run migrate
+  npm start
+
+Adresse du site :
+  http://localhost:3000/index.html
+
+Adresse du backoffice :
+  http://localhost:3000/admin.html
+
+Identifiants admin de demonstration :
+  E-mail : admin@ithaven.tg
+  Mot de passe : Admin1234!
+
+Remarque : ces identifiants sont ceux par defaut. En production, il faut les
+modifier avec les variables ADMIN_EMAIL et ADMIN_PASSWORD dans le fichier .env.
+
+Commande de verification :
+  npm run check
+
+Fin du fichier.

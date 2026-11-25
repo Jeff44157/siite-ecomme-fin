@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Backoffice administrateur IT Haven — tableau de bord, catalogue, commandes, marketing et CRM.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="cart.css">
+  <link rel="stylesheet" href="responsive.css">
+  <link rel="stylesheet" href="admin.css">
+  <script src="catalog.js" defer></script>
+  <script src="cart.js" defer></script>
+  <script src="search.js" defer></script>
+  <script src="app.js" defer></script>
+  <script src="/node_modules/xlsx/dist/xlsx.full.min.js" defer></script>
+  <script src="admin.js" defer></script>
+  <title>Administration — IT Haven</title>
+</head>
+<body>
+  <header class="header">
+    <a href="index.html" class="logo-wrapper">
+      <i class="fas fa-graduation-cap logo-img" aria-hidden="true"></i>
+      <div class="logo-text">
+        <div class="brand-name"><span class="brand-white">IT</span><span class="brand-orange">HAVEN</span></div>
+        <span class="tagline">REFERENCE TECH.</span>
+      </div>
+    </a>
+
+    <nav class="nav">
+      <a href="index.html" class="nav-link">ACCUEIL</a>
+      <div class="dropdown">
+        <a href="shop.html" class="nav-link">SHOP <i class="fas fa-chevron-down"></i></a>
+        <div class="dropdown-menu">
+          <a href="shop.html?filter=all">Tous les produits</a>
+          <a href="shop.html?filter=new">Nouveautés</a>
+          <a href="shop.html?filter=bestsellers">Meilleures ventes</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="categories.html" class="nav-link">CATEGORIES <i class="fas fa-chevron-down"></i></a>
+        <div class="dropdown-menu">
+          <a href="shop.html?category=headphones">Écouteurs</a>
+          <a href="shop.html?category=smartphones">Téléphones</a>
+          <a href="shop.html?category=laptops">Ordinateurs</a>
+        </div>
+      </div>
+      <a href="promo.html" class="nav-link">PROMOS</a>
+      <a href="wishlist.html" class="nav-link">Wishlist <span id="wishlist-count" class="wishlist-count">0</span></a>
+      <a href="contact.html" class="nav-link">CONTACT</a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="search-box" id="search-box">
+        <input type="search" id="search-input" class="search-input" placeholder="Rechercher..." aria-label="Rechercher un produit" autocomplete="off">
+        <button type="button" id="search-btn" class="action-btn" aria-label="Rechercher"><i class="fas fa-search"></i></button>
+      </div>
+      <a href="auth.html" id="account-link" class="action-btn" aria-label="Compte"><i class="fas fa-user"></i></a>
+      <button type="button" id="cart-btn" class="action-btn cart-btn" aria-label="Panier">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cart-count" class="cart-count">0</span>
+      </button>
+      <div id="search-results" class="search-results" aria-live="polite"></div>
+    </div>
+  </header>
+
+  <div class="admin-shell">
+    <aside class="admin-sidebar" id="adminSidebar" aria-label="Menu administration">
+      <div class="admin-sidebar-head">
+        <div class="admin-sidebar-title"><i class="fas fa-shield-halved"></i><span>BACKOFFICE</span></div>
+        <button type="button" class="admin-sidebar-toggle" id="adminSidebarToggle" data-action="sidebar-toggle" aria-expanded="true" aria-controls="adminSidebarNav">
+          <i class="fas fa-bars"></i><span>Menu</span>
+        </button>
+      </div>
+      <nav class="admin-nav" id="adminSidebarNav">
+        <button type="button" class="admin-tab active" data-view="dashboard"><i class="fas fa-gauge-high"></i><span>Tableau de bord</span></button>
+        <button type="button" class="admin-tab" data-view="catalogue"><i class="fas fa-boxes-stacked"></i><span>Catalogue</span></button>
+        <button type="button" class="admin-tab" data-view="commandes"><i class="fas fa-truck"></i><span>Commandes</span></button>
+        <button type="button" class="admin-tab" data-view="marketing"><i class="fas fa-bullhorn"></i><span>Marketing</span></button>
+        <button type="button" class="admin-tab" data-view="crm"><i class="fas fa-users"></i><span>CRM</span></button>
+      </nav>
+      <div class="admin-sidebar-foot">
+        <span id="adminUserName" class="admin-user-name">Administrateur</span>
+        <button type="button" class="admin-logout" data-action="logout"><i class="fas fa-right-from-bracket"></i> Déconnexion</button>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <div>
+          <h1>Espace administrateur</h1>
+          <p>Pilotez la boutique IT Haven en temps réel.</p>
+        </div>
+        <div class="admin-topbar-meta">
+          <span class="admin-live"><i></i> Temps réel</span>
+          <span id="adminClock" class="admin-clock"></span>
+        </div>
+      </div>
+
+      <div id="adminStatus" class="admin-status" role="status" aria-live="polite" hidden></div>
+
+      <section class="admin-view active" id="view-dashboard" data-view="dashboard" aria-label="Tableau de bord">
+        <div class="admin-section-head">
+          <div><h2>Tableau de bord analytique</h2><p>Synthèse des ventes, du stock et de l’activité récente.</p></div>
+          <button type="button" class="admin-btn admin-btn-ghost" data-action="refresh-dashboard"><i class="fas fa-rotate"></i> Actualiser</button>
+        </div>
+        <div class="admin-stats" id="dashboardStats"></div>
+        <div class="admin-grid-2">
+          <article class="admin-panel">
+            <div class="admin-panel-head"><h3>Meilleures ventes</h3><i class="fas fa-chart-bar"></i></div>
+            <div id="dashboardBestSellers" class="admin-bar-chart"></div>
+          </article>
+          <article class="admin-panel">
+            <div class="admin-panel-head"><h3>Alertes rupture de stock</h3><i class="fas fa-triangle-exclamation"></i></div>
+            <div class="admin-table-scroll">
+              <table class="admin-table">
+                <thead><tr><th>Produit</th><th>Stock</th><th>État</th></tr></thead>
+                <tbody id="dashboardLowStock"></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+        <article class="admin-panel">
+          <div class="admin-panel-head"><h3>Dernières commandes</h3><i class="fas fa-receipt"></i></div>
+          <div class="admin-table-scroll">
+            <table class="admin-table">
+              <thead><tr><th>Commande</th><th>Client</th><th>Lieu</th><th>Montant</th><th>Statut</th><th>Date</th><th></th></tr></thead>
+              <tbody id="dashboardRecentOrders"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section class="admin-view" id="view-catalogue" data-view="catalogue" aria-label="Catalogue" hidden>
+        <div class="admin-section-head">
+          <div><h2>Gestion du catalogue</h2><p>Produits, déclinaisons, import et export.</p></div>
+          <div class="admin-actions">
+            <button type="button" class="admin-btn admin-btn-ghost" data-action="export" data-endpoint="products" data-format="csv"><i class="fas fa-file-csv"></i> Export CSV</button>
+            <button type="button" class="admin-btn admin-btn-ghost" data-action="export" data-endpoint="products" data-format="xlsx"><i class="fas fa-file-excel"></i> Export XLSX</button>
+            <button type="button" class="admin-btn admin-btn-ghost" data-action="import-open"><i class="fas fa-file-import"></i> Importer</button>
+            <button type="button" class="admin-btn admin-btn-primary" data-action="product-new"><i class="fas fa-plus"></i> Nouveau produit</button>
+          </div>
+        </div>
+        <div class="admin-filters">
+          <label class="admin-field"><i class="fas fa-search"></i><input type="search" id="productSearch" placeholder="Rechercher un produit..." aria-label="Rechercher un produit"></label>
+          <label class="admin-field"><select id="productCategory" aria-label="Filtrer par catégorie"><option value="all">Toutes les catégories</option></select></label>
+        </div>
+        <article class="admin-panel">
+          <div class="admin-table-scroll">
+            <table class="admin-table">
+              <thead><tr><th>Produit</th><th>Catégorie</th><th>Prix</th><th>Promo</th><th>Stock</th><th>Variantes</th><th>Statut</th><th>Actions</th></tr></thead>
+              <tbody id="productsBody"></tbody>
+            </table>
+          </div>
+          <div class="admin-pagination" id="productsPagination" data-pagination-target="products"></div>
+        </article>
+      </section>
+
+      <section class="admin-view" id="view-commandes" data-view="commandes" aria-label="Commandes" hidden>
+        <div class="admin-section-head">
+          <div><h2>Commandes et facturation</h2><p>Suivi des commandes, factures et bons de livraison.</p></div>
+        </div>
+        <div class="admin-filters">
+          <label class="admin-field"><i class="fas fa-search"></i><input type="search" id="orderSearch" placeholder="Commande, client, ville..." aria-label="Rechercher une commande"></label>
+          <label class="admin-field"><select id="orderStatus" aria-label="Filtrer par statut">
+            <option value="">Tous les statuts</option>
+            <option value="pending">En attente</option>
+            <option value="paid">Payée</option>
+            <option value="processing">En préparation</option>
+            <option value="shipped">Expédiée</option>
+            <option value="delivered">Livrée</option>
+            <option value="cancelled">Annulée</option>
+          </select></label>
+        </div>
+        <article class="admin-panel">
+          <div class="admin-table-scroll">
+            <table class="admin-table">
+              <thead><tr><th>N°</th><th>Client</th><th>Lieu</th><th>Montant</th><th>Statut</th><th>Date</th><th>Actions</th></tr></thead>
+              <tbody id="ordersBody"></tbody>
+            </table>
+          </div>
+          <div class="admin-pagination" id="ordersPagination" data-pagination-target="orders"></div>
+        </article>
+      </section>
+
+      <section class="admin-view" id="view-marketing" data-view="marketing" aria-label="Marketing" hidden>
+        <div class="admin-section-head">
+          <div><h2>Marketing et fidélisation</h2><p>Codes promotionnels, ventes flash, fidélité et relances.</p></div>
+        </div>
+
+        <article class="admin-panel">
+          <div class="admin-panel-head">
+            <h3>Codes de réduction</h3>
+            <button type="button" class="admin-btn admin-btn-primary admin-btn-sm" data-action="promo-new"><i class="fas fa-plus"></i> Nouveau code</button>
+          </div>
+          <div class="admin-table-scroll">
+            <table class="admin-table">
+              <thead><tr><th>Code</th><th>Libellé</th><th>Type</th><th>Valeur</th><th>Minimum</th><th>Expiration</th><th>État</th><th>Actions</th></tr></thead>
+              <tbody id="promoBody"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <div class="admin-grid-2">
+          <article class="admin-panel">
+            <div class="admin-panel-head">
+              <h3>Ventes flash</h3>
+              <button type="button" class="admin-btn admin-btn-primary admin-btn-sm" data-action="flash-new"><i class="fas fa-plus"></i> Nouvelle vente</button>
+            </div>
+            <div class="admin-table-scroll">
+              <table class="admin-table">
+                <thead><tr><th>Produit</th><th>Remise</th><th>Début</th><th>Fin</th><th>Actions</th></tr></thead>
+                <tbody id="flashBody"></tbody>
+              </table>
+            </div>
+          </article>
+          <article class="admin-panel">
+            <div class="admin-panel-head">
+              <h3>Parrainage</h3>
+              <button type="button" class="admin-btn admin-btn-primary admin-btn-sm" data-action="referral-new"><i class="fas fa-plus"></i> Nouveau code</button>
+            </div>
+            <div class="admin-table-scroll">
+              <table class="admin-table">
+                <thead><tr><th>Code</th><th>Récompense</th><th>Remise</th><th>État</th><th>Actions</th></tr></thead>
+                <tbody id="referralBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+
+        <article class="admin-panel">
+          <div class="admin-panel-head"><h3>Membres fidélité</h3><i class="fas fa-medal"></i></div>
+          <div class="admin-table-scroll">
+            <table class="admin-table">
+              <thead><tr><th>Membre</th><th>Email</th><th>Points</th><th>Segment</th><th>Total dépensé</th><th>Commandes</th></tr></thead>
+              <tbody id="loyaltyBody"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="admin-panel">
+          <div class="admin-panel-head">
+            <h3>Paniers abandonnés</h3>
+            <button type="button" class="admin-btn admin-btn-primary admin-btn-sm" data-action="carts-remind"><i class="fas fa-paper-plane"></i> Relancer la sélection</button>
+          </div>
+          <div class="admin-table-scroll">
+            <table class="admin-table">
+              <thead><tr><th></th><th>Email</th><th>Articles</th><th>Montant</th><th>Dernière activité</th><th>Relance</th></tr></thead>
+              <tbody id="cartsBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section class="admin-view" id="view-crm" data-view="crm" aria-label="CRM" hidden>
+        <div class="admin-section-head">
+          <div><h2>CRM — clients</h2><p>Historique, segments et export de la base clients.</p></div>
+          <div class="admin-actions">
+            <button type="button" class="admin-btn admin-btn-ghost" data-action="export" data-endpoint="customers" data-format="csv"><i class="fas fa-file-csv"></i> Export CSV</button>
+            <button type="button" class="admin-btn admin-btn-ghost" data-action="export" data-endpoint="customers" data-format="xlsx"><i class="fas fa-file-excel"></i> Export XLSX</button>
+          </div>
+        </div>
+        <div class="admin-filters">
+          <label class="admin-field"><i class="fas fa-search"></i><input type="search" id="customerSearch" placeholder="Nom ou email..." aria-label="Rechercher un client"></label>
+          <label class="admin-field"><select id="customerSegment" aria-label="Filtrer par segment">
+            <option value="">Tous les segments</option>
+            <option value="VIP">VIP</option>
+            <option value="Fidèle">Fidèle</option>
+            <option value="Nouveau">Nouveau</option>
+          </select></label>
+        </div>
+        <article class="admin-panel">
+          <div class="admin-table-scroll">
+            <table class="admin-table">
+              <thead><tr><th>Client</th><th>Email</th><th>Téléphone</th><th>Total dépensé</th><th>Commandes</th><th>Segment</th><th>Dernière commande</th><th></th></tr></thead>
+              <tbody id="customersBody"></tbody>
+            </table>
+          </div>
+          <div class="admin-pagination" id="customersPagination" data-pagination-target="customers"></div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-col brand-col">
+        <div class="footer-logo"><span class="logo-icon">TH</span> <strong>TECHHAVEN</strong></div>
+        <p class="footer-desc">Your ultimate destination for premium electronics and gadgets. Quality tech, trusted service, always.</p>
+        <div class="social-icons">
+          <a href="contact.html" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="contact.html" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="contact.html" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+          <a href="contact.html" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>SHOP</h3>
+        <ul>
+          <li><a href="shop.html">All Products</a></li>
+          <li><a href="shop.html?filter=new">New Arrivals</a></li>
+          <li><a href="shop.html?filter=bestsellers">Best Sellers</a></li>
+          <li><a href="promo.html">Deals &amp; Offers</a></li>
+          <li><a href="wishlist.html">Wishlist</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>CUSTOMER SERVICE</h3>
+        <ul>
+          <li><a href="contact.html">Help Center</a></li>
+          <li><a href="contact.html">Shipping &amp; Delivery</a></li>
+          <li><a href="contact.html">Returns &amp; Refunds</a></li>
+          <li><a href="contact.html">Track Your Order</a></li>
+          <li><a href="contact.html">Warranty Information</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>COMPANY</h3>
+        <ul>
+          <li><a href="index.html">About Us</a></li>
+          <li><a href="contact.html">Careers</a></li>
+          <li><a href="index.html">Blog</a></li>
+          <li><a href="contact.html">Privacy Policy</a></li>
+          <li><a href="contact.html">Terms &amp; Conditions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col newsletter-col">
+        <h3>STAY CONNECTED</h3>
+        <p>Subscribe to get the latest updates, exclusive offers, and new arrivals.</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Enter your email" required>
+          <button type="submit" aria-label="S'abonner"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 TechHaven. All rights reserved.</p>
+      <div class="payment-security">
+        <span class="secure-badge"><i class="fa-solid fa-lock"></i> Secure Payments</span>
+        <div class="payment-icons">
+          <i class="fa-brands fa-cc-visa" title="Visa"></i>
+          <i class="fa-brands fa-cc-mastercard" title="Mastercard"></i>
+          <i class="fa-brands fa-cc-paypal" title="PayPal"></i>
+          <i class="fa-brands fa-cc-apple-pay" title="Apple Pay"></i>
+          <i class="fa-brands fa-google-pay" title="Google Pay"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="admin-toasts" id="adminToasts" aria-live="polite" aria-atomic="true"></div>
+
+  <div class="admin-modal" id="adminModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="adminModalTitle">
+    <div class="admin-modal-overlay" data-modal-close></div>
+    <div class="admin-modal-dialog" id="adminModalDialog">
+      <div class="admin-modal-head">
+        <h2 id="adminModalTitle"></h2>
+        <button type="button" class="admin-modal-close" data-modal-close aria-label="Fermer la fenêtre"><i class="fas fa-xmark"></i></button>
+      </div>
+      <div class="admin-modal-body" id="adminModalBody"></div>
+      <div class="admin-modal-foot" id="adminModalFoot" hidden></div>
+    </div>
+  </div>
+</body>
+</html>
